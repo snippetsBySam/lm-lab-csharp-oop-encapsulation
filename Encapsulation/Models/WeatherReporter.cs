@@ -3,61 +3,51 @@ namespace Encapsulation.Models
 {
     public class WeatherReporter
     {
-        public string Location;
-        public double Temperature;
+        private string Location;
+        private double TemperatureInCelcius;
 
-        public WeatherReporter(string location, double temperature)
+        public WeatherReporter(string location, double temperatureInCelcius) =>
+            (Location, TemperatureInCelcius) = (location, temperatureInCelcius);
+
+        private double CelcuisToF(double temperatureInCelcius) => (9.0 / 5.0) * temperatureInCelcius + 32;
+        public string WeatherReport()
         {
-            Location = location;
-            Temperature = temperature;
+            return $"I am in {Location} and it is {GetWeather()}. {GetFeeling()}. The temperature in Fahrenheit is {CelcuisToF(TemperatureInCelcius)}°F.";
         }
 
-        public string Print()
+        public string GetWeather()
         {
-            double newTemp = (9.0 / 5.0) * Temperature + 32;
-            return $"I am in {Location} and it is {Check1()}. {Check2()}. The temperature in Fahrenheit is {newTemp}.";
+            switch (Location)
+            {
+                case "London":
+                    return "🌦";
+
+                case "California":
+                    return "🌅";
+
+                case "Cape Town":
+                    return "🌤";
+
+                default:
+                    return "🔆";
+            }
         }
 
-        public string Check1()
+        public string GetFeeling()
         {
-            if (Location == "London")
+            switch (TemperatureInCelcius)
             {
+                case > 30:
+                    return "It's too hot 🥵!";
 
-                return "🌦";
+                case < 10:
+                    return "It's too cold 🥶!";
 
+                default:
+                    return "Ahhh...it's just right 😊!";
             }
-            else if (Location == "California")
-            {
-
-                return "🌅";
-
-            }
-            else if (Location == "Cape Town")
-            {
-
-                return "🌤";
-
-            }
-            return "🔆";
         }
-
-        public string Check2()
-        {
-            if (Temperature > 30)
-            {
-
-                return "It's too hot 🥵!";
-
-            }
-            else if (Temperature < 10)
-            {
-
-                return "It's too cold 🥶!";
-
-            }
-            return "Ahhh...it's just right 😊!";
-        }
-
+        
     }
 }
 
